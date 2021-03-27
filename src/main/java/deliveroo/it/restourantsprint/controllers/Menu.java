@@ -1,11 +1,19 @@
 package deliveroo.it.restourantsprint.controllers;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.ResponseEntity;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 import org.springframework.web.bind.annotation.RestController;
 import deliveroo.it.restourantsprint.models.Dish;
 
@@ -31,15 +39,36 @@ public class Menu {
     }
 
     @PostMapping(path = "/add") // Map ONLY POST Requests
-    public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam float price) {
+    public ResponseEntity addNewDish(@RequestParam String name, @RequestParam float price) throws JsonMappingException, JsonProcessingException {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
-
+        
         Dish n = new Dish();
         n.setName(name);
         n.setPrice((float) price);
         menuRepository.save(n);
-        return "Saved";
+        return ResponseEntity.ok().build();
+    }
+
+    // @PutMapping("/menu/{id}")
+    // Optional<Dish> replaceEmployee(@RequestParam String name, @RequestParam float price, @PathVariable Integer id) {
+        
+    //     return menuRepository.findById(id)
+    //     .map(dish -> {
+    //         dish.setName(newDish.getName());
+    //         dish.setRole(newDish.getRole());
+    //         return repository.save(dish);
+    //     })
+    //     .orElseGet(() -> {
+    //         newEmployee.setId(id);
+    //         return repository.save(newEmployee);
+    //     });
+    // }
+
+    @GetMapping("/menu/{id}")
+    Optional<Dish> getMenu(@PathVariable Integer id) {
+        
+        return menuRepository.findById(id);
     }
 
 }
