@@ -13,8 +13,8 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.NumberFormat;
 
 @Entity // This tells Hibernate to make a table out of this class
-@Table(name = "dishes")
-public class Dish {
+@Table(name = "foods")
+public class Food {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

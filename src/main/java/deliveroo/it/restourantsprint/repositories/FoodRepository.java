@@ -2,10 +2,10 @@ package deliveroo.it.restourantsprint.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 
-import deliveroo.it.restourantsprint.models.Dish;
+import deliveroo.it.restourantsprint.models.Food;
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
 // CRUD refers Create, Read, Update, Delete
 
-public interface MenuRepository extends CrudRepository<Dish, Integer> {
+public interface FoodRepository extends CrudRepository<Food, Integer> {
 
 }
