@@ -1,6 +1,8 @@
 package deliveroo.it.restourantsprint.models;
 
 import java.math.BigDecimal;
+import java.net.URI;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +36,7 @@ public class Food {
 
     @Size(max = 200)
     private String description;
-
+    private URI image_url;
     private Boolean available;
 
     public Long getId() {
@@ -75,6 +77,14 @@ public class Food {
 
     public void setDecription(String description) {
         this.description = description;
+    }
+
+    public void setUri(URI image_url) {
+        this.image_url = image_url;
+    }
+
+    public URI getUri() {
+        return this.image_url;
     }
 
     public Boolean getAvailable() {
