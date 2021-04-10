@@ -4,5 +4,5 @@ CREATE TABLE IF NOT EXISTS `drinks_orders` (
     `order_id` INT,
     FOREIGN KEY (`order_id`) REFERENCES orders (id),
     `drink_id` INT,
-    FOREIGN KEY (`drink_id`) REFERENCES drinks (id),
+    FOREIGN KEY (`drink_id`) REFERENCES drinks (id)
 );
