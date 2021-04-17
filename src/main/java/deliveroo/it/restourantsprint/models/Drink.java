@@ -20,7 +20,7 @@ public class Drink {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     @NotBlank
     @Column(unique = true)
@@ -42,11 +42,11 @@ public class Drink {
     private Boolean available;
     private Boolean alcholic;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
