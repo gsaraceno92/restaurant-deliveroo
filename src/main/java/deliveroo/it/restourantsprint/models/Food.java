@@ -33,6 +33,8 @@ public class Food {
 
     @Size(max = 100)
     private String category;
+    @Size(max = 500)
+    private String ingredients;
 
     @Size(max = 200)
     private String description;
@@ -75,8 +77,16 @@ public class Food {
         return this.description;
     }
 
-    public void setDecription(String description) {
+    public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getIngredients() {
+        return this.ingredients;
+    }
+
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
     }
 
     public void setUri(URI image_url) {

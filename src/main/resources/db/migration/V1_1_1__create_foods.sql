@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS `foods` (
     `name` varchar(50) NOT NULL,
     `price` DECIMAL(10,2) NOT NULL,
     `category` varchar(100),
+    `ingredients` varchar(500),
     `description` varchar(200),
     `image_url` varchar(400),
     `available` boolean default 1
