@@ -14,12 +14,15 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.NumberFormat;
 
+import deliveroo.it.restourantsprint.services.UriPersistenceConverter;
+
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "foods")
 public class Food {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
     @NotBlank
@@ -27,8 +30,8 @@ public class Food {
     @Size(max = 50)
     private String name;
 
-    @NotBlank
     @NumberFormat(pattern = "#,##,###,###.##,#.#,##.#,###.#")
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
     @Size(max = 100)
@@ -38,13 +41,14 @@ public class Food {
 
     @Size(max = 200)
     private String description;
-    private URI image_url;
+
+    @Column(name = "image_url")
+    private String imageUrl;
     private Boolean available;
 
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
@@ -52,7 +56,6 @@ public class Food {
     public String getName() {
         return this.name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -60,7 +63,6 @@ public class Food {
     public BigDecimal getPrice() {
         return this.price;
     }
-
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
@@ -68,7 +70,6 @@ public class Food {
     public String getCategory() {
         return this.category;
     }
-
     public void setCategory(String category) {
         this.category = category;
     }
@@ -76,7 +77,6 @@ public class Food {
     public String getDescription() {
         return this.description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -84,23 +84,22 @@ public class Food {
     public String getIngredients() {
         return this.ingredients;
     }
-
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
     }
 
-    public void setUri(URI image_url) {
-        this.image_url = image_url;
+    public URI getImageUrl() {
+        UriPersistenceConverter converter = new UriPersistenceConverter();
+        return converter.convertToEntityAttribute(imageUrl);
     }
-
-    public URI getUri() {
-        return this.image_url;
+    public void setImageUrl(URI imageUrl) {
+        UriPersistenceConverter converter = new UriPersistenceConverter();
+        this.imageUrl = converter.convertToDatabaseColumn(imageUrl);
     }
 
     public Boolean getAvailable() {
         return this.available;
     }
-
     public void setAvailable(Boolean available) {
         this.available = available;
     }
