@@ -2,9 +2,13 @@ package deliveroo.it.restourantsprint.controllers;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,4 +33,14 @@ public class DrinkController {
         return drink;
     }
 
+    /**
+     * Create drink.
+     *
+     * @param drink
+     * @return the drink
+     */
+    @PostMapping("/drink")
+    public Drink add(@Valid @RequestBody Drink drink) {
+        return drinkRepository.save(drink);
+    }
 }

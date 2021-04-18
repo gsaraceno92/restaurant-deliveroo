@@ -90,7 +90,7 @@ public class Food {
 
     public URI getImageUrl() {
         UriPersistenceConverter converter = new UriPersistenceConverter();
-        return converter.convertToEntityAttribute(imageUrl);
+        return converter.convertToEntityAttribute(this.imageUrl);
     }
     public void setImageUrl(URI imageUrl) {
         UriPersistenceConverter converter = new UriPersistenceConverter();

@@ -14,6 +14,8 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.NumberFormat;
 
+import deliveroo.it.restourantsprint.services.UriPersistenceConverter;
+
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "drinks")
 public class Drink {
@@ -27,8 +29,8 @@ public class Drink {
     @Size(max = 50)
     private String name;
 
-    @NotBlank
     @NumberFormat(pattern = "#,##,###,###.##,#.#,##.#,###.#")
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
     @Size(max = 100)
@@ -38,14 +40,14 @@ public class Drink {
 
     @Size(max = 200)
     private String description;
-    private URI image_url;
+    @Column(name = "image_url")
+    private String imageUrl;
     private Boolean available;
     private Boolean alcholic;
 
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
@@ -53,7 +55,6 @@ public class Drink {
     public String getName() {
         return this.name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -61,7 +62,6 @@ public class Drink {
     public BigDecimal getPrice() {
         return this.price;
     }
-
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
@@ -69,7 +69,6 @@ public class Drink {
     public String getCategory() {
         return this.category;
     }
-
     public void setCategory(String category) {
         this.category = category;
     }
@@ -77,7 +76,6 @@ public class Drink {
     public String getDescription() {
         return this.description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -85,23 +83,22 @@ public class Drink {
     public String getIngredients() {
         return this.ingredients;
     }
-
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
     }
 
-    public void setUri(URI image_url) {
-        this.image_url = image_url;
+    public URI getImageUrl() {
+        UriPersistenceConverter converter = new UriPersistenceConverter();
+        return converter.convertToEntityAttribute(this.imageUrl);
     }
-
-    public URI getUri() {
-        return this.image_url;
+    public void setImageUrl(URI imageUrl) {
+        UriPersistenceConverter converter = new UriPersistenceConverter();
+        this.imageUrl = converter.convertToDatabaseColumn(imageUrl);
     }
 
     public Boolean getAvailable() {
         return this.available;
     }
-
     public void setAvailable(Boolean available) {
         this.available = available;
     }
@@ -109,7 +106,6 @@ public class Drink {
     public Boolean getAlcholic() {
         return this.alcholic;
     }
-
     public void setAlcholic(Boolean alcholic) {
         this.alcholic = alcholic;
     }

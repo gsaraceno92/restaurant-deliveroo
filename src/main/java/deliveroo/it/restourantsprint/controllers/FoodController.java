@@ -37,7 +37,7 @@ public class FoodController {
      * @param Food
      * @return the food
      */
-    @PostMapping("/foods")
+    @PostMapping("/food")
     public Food add(@Valid @RequestBody Food food) {
         return foodRepository.save(food);
     }
