@@ -5,6 +5,9 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,13 +27,15 @@ public class DrinkController {
 
     @GetMapping("/drinks")
     Iterable<Drink> getAll() {
-        return drinkRepository.findAll();
+      return drinkRepository.findAll();
     }
 
     @GetMapping("/drinks/{id}")
-    Optional<Drink> getDrink(@PathVariable Integer id) {
-        Optional<Drink> drink = drinkRepository.findById(id);
-        return drink;
+    public ResponseEntity<Long> getDrink(@PathVariable Integer id) {
+      Optional<Drink> drink = drinkRepository.findById(id);
+      if (drink.isEmpty())
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
@@ -42,5 +47,26 @@ public class DrinkController {
     @PostMapping("/drink")
     public Drink add(@Valid @RequestBody Drink drink) {
         return drinkRepository.save(drink);
+    }
+
+    /**
+     * Create food.
+     *
+     * @param Food
+     * @return the food
+     */
+    @DeleteMapping("/drink/{id}")
+    public ResponseEntity<Long> delete(@PathVariable Integer id) {
+      Drink drink;
+      Optional<Drink> optionaldrink = drinkRepository.findById(id);
+      if (optionaldrink.isEmpty())
+        new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      try {
+        drink = optionaldrink.get();
+        drinkRepository.delete(drink);
+      } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
