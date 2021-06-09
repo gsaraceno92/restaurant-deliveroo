@@ -20,93 +20,102 @@ import deliveroo.it.restourantsprint.services.UriPersistenceConverter;
 @Table(name = "drinks")
 public class Drink {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer id;
 
-    @NotBlank
-    @Column(unique = true)
-    @Size(max = 50)
-    private String name;
+  @NotBlank
+  @Column(unique = true)
+  @Size(max = 50)
+  private String name;
 
-    @NumberFormat(pattern = "#,##,###,###.##,#.#,##.#,###.#")
-    @Column(name = "price", nullable = false)
-    private BigDecimal price;
+  @NumberFormat(pattern = "#,##,###,###.##,#.#,##.#,###.#")
+  @Column(name = "price", nullable = false)
+  private BigDecimal price;
 
-    @Size(max = 100)
-    private String category;
-    @Size(max = 500)
-    private String ingredients;
+  @Size(max = 100)
+  private String category;
+  @Size(max = 500)
+  private String ingredients;
 
-    @Size(max = 200)
-    private String description;
-    @Column(name = "image_url")
-    private String imageUrl;
-    private Boolean available;
-    private Boolean alcholic;
+  @Size(max = 200)
+  private String description;
+  @Column(name = "image_url")
+  private String imageUrl;
+  private Boolean available;
+  private Boolean alcholic;
 
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public String getName() {
-        return this.name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public BigDecimal getPrice() {
-        return this.price;
-    }
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+  public String getName() {
+    return this.name;
+  }
 
-    public String getCategory() {
-        return this.category;
-    }
-    public void setCategory(String category) {
-        this.category = category;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String getDescription() {
-        return this.description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public BigDecimal getPrice() {
+    return this.price;
+  }
 
-    public String getIngredients() {
-        return this.ingredients;
-    }
-    public void setIngredients(String ingredients) {
-        this.ingredients = ingredients;
-    }
+  public void setPrice(BigDecimal price) {
+    this.price = price;
+  }
 
-    public URI getImageUrl() {
-        UriPersistenceConverter converter = new UriPersistenceConverter();
-        return converter.convertToEntityAttribute(this.imageUrl);
-    }
-    public void setImageUrl(URI imageUrl) {
-        UriPersistenceConverter converter = new UriPersistenceConverter();
-        this.imageUrl = converter.convertToDatabaseColumn(imageUrl);
-    }
+  public String getCategory() {
+    return this.category;
+  }
 
-    public Boolean getAvailable() {
-        return this.available;
-    }
-    public void setAvailable(Boolean available) {
-        this.available = available;
-    }
+  public void setCategory(String category) {
+    this.category = category;
+  }
 
-    public Boolean getAlcholic() {
-        return this.alcholic;
-    }
-    public void setAlcholic(Boolean alcholic) {
-        this.alcholic = alcholic;
-    }
+  public String getDescription() {
+    return this.description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public String getIngredients() {
+    return this.ingredients;
+  }
+
+  public void setIngredients(String ingredients) {
+    this.ingredients = ingredients;
+  }
+
+  public URI getImageUrl() {
+    UriPersistenceConverter converter = new UriPersistenceConverter();
+    return converter.convertToEntityAttribute(this.imageUrl);
+  }
+
+  public void setImageUrl(URI imageUrl) {
+    UriPersistenceConverter converter = new UriPersistenceConverter();
+    this.imageUrl = converter.convertToDatabaseColumn(imageUrl);
+  }
+
+  public Boolean getAvailable() {
+    return this.available;
+  }
+
+  public void setAvailable(Boolean available) {
+    this.available = available;
+  }
+
+  public Boolean getAlcholic() {
+    return this.alcholic;
+  }
+
+  public void setAlcholic(Boolean alcholic) {
+    this.alcholic = alcholic;
+  }
 }
