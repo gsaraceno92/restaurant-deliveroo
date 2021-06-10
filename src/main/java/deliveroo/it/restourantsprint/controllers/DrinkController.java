@@ -2,6 +2,7 @@ package deliveroo.it.restourantsprint.controllers;
 
 import java.util.Optional;
 
+import javax.management.relation.RelationNotFoundException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,51 +24,69 @@ import deliveroo.it.restourantsprint.repositories.DrinkRepository;
 @RequestMapping(path = "/deliveroo") // This means URL's start with /demo (after Application path)
 public class DrinkController {
 
-    @Autowired // This means to get the bean called <resource>Repository
-    private DrinkRepository drinkRepository;
+  @Autowired // This means to get the bean called <resource>Repository
+  private DrinkRepository drinkRepository;
 
-    @GetMapping("/drinks")
-    Iterable<Drink> getAll() {
-      return drinkRepository.findAll();
-    }
+  @GetMapping("/drinks")
+  Iterable<Drink> getAll() {
+    return drinkRepository.findAll();
+  }
 
-    @GetMapping("/drinks/{id}")
-    public ResponseEntity<Long> getDrink(@PathVariable Integer id) {
-      Optional<Drink> drink = drinkRepository.findById(id);
-      if (drink.isEmpty())
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      return new ResponseEntity<>(HttpStatus.OK);
-    }
+  @GetMapping("/drinks/{id}")
+  public ResponseEntity<Long> getDrink(@PathVariable Integer id) {
+    Optional<Drink> drink = drinkRepository.findById(id);
+    if (drink.isEmpty())
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 
-    /**
-     * Create drink.
-     *
-     * @param drink
-     * @return the drink
-     */
-    @PostMapping("/drink")
-    public Drink add(@Valid @RequestBody Drink drink) {
-        return drinkRepository.save(drink);
-    }
+  /**
+   * Create drink.
+   *
+   * @param drink
+   * @return the drink
+   */
+  @PostMapping("/drink")
+  public Drink add(@Valid @RequestBody Drink drink) {
+    return drinkRepository.save(drink);
+  }
 
-    /**
-     * Create food.
-     *
-     * @param Food
-     * @return the food
-     */
-    @DeleteMapping("/drinks/{id}")
-    public ResponseEntity<Long> delete(@PathVariable Integer id) {
-      Drink drink;
-      Optional<Drink> optionaldrink = drinkRepository.findById(id);
-      if (optionaldrink.isEmpty())
-        new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      try {
-        drink = optionaldrink.get();
-        drinkRepository.delete(drink);
-      } catch (Exception e) {
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-      }
-      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  /**
+   * Create food.
+   *
+   * @param Food
+   * @return the food
+   */
+  @DeleteMapping("/drinks/{id}")
+  public ResponseEntity<Long> delete(@PathVariable Integer id) {
+    Drink drink;
+    Optional<Drink> optionaldrink = drinkRepository.findById(id);
+    if (optionaldrink.isEmpty())
+      new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    try {
+      drink = optionaldrink.get();
+      drinkRepository.delete(drink);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
+
+  @PutMapping("/drink/{id}")
+  public ResponseEntity<Drink> updateFood(@PathVariable Integer id, @Valid @RequestBody Drink drinkDetails)
+      throws RelationNotFoundException {
+    Drink drink = drinkRepository.findById(id)
+        .orElseThrow(() -> new RelationNotFoundException("drink not found on :: " + id));
+
+    drink.setName(drinkDetails.getName());
+    drink.setCategory(drinkDetails.getCategory());
+    drink.setIngredients(drinkDetails.getIngredients());
+    drink.setAvailable(drinkDetails.getAvailable());
+    drink.setAlcholic(drinkDetails.getAlcholic());
+    drink.setPrice(drinkDetails.getPrice());
+    drink.setImageUrl(drinkDetails.getImageUrl());
+    drink.setDescription(drinkDetails.getDescription());
+    final Drink updatedDrink = drinkRepository.save(drink);
+    return ResponseEntity.ok(updatedDrink);
+  }
 }

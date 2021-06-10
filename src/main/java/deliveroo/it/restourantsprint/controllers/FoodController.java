@@ -1,7 +1,10 @@
 package deliveroo.it.restourantsprint.controllers;
 
+import java.util.Date;
 import java.util.Optional;
 
+import javax.management.relation.RelationNotFoundException;
+import javax.print.attribute.standard.Media;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +12,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -68,4 +73,22 @@ public class FoodController {
     }
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
+
+  @PutMapping("/foods/{id}")
+  public ResponseEntity<Food> updateFood(@PathVariable Integer id, @Valid @RequestBody Food foodDetails)
+      throws RelationNotFoundException {
+    Food food = foodRepository.findById(id)
+        .orElseThrow(() -> new RelationNotFoundException("Food not found on :: " + id));
+
+    food.setName(foodDetails.getName());
+    food.setCategory(foodDetails.getCategory());
+    food.setIngredients(foodDetails.getIngredients());
+    food.setAvailable(foodDetails.getAvailable());
+    food.setPrice(foodDetails.getPrice());
+    food.setImageUrl(foodDetails.getImageUrl());
+    food.setDescription(foodDetails.getDescription());
+    final Food updatedFood = foodRepository.save(food);
+    return ResponseEntity.ok(updatedFood);
+  }
+
 }
