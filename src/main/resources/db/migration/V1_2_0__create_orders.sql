@@ -7,5 +7,6 @@ CREATE TABLE IF NOT EXISTS `orders` (
     `user_id` INT,
     FOREIGN KEY (`user_id`) REFERENCES users (id),
     `description` varchar(500),
-    `order_date` DATETIME DEFAULT CURRENT_TIMESTAMP
+    `order_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `items` json DEFAULT NULL
 );
