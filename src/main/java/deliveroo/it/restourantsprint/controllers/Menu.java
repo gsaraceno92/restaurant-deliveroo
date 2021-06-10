@@ -1,5 +1,6 @@
 package deliveroo.it.restourantsprint.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,15 +36,23 @@ public class Menu {
   }
 
   @RequestMapping(value = "/menu", method = RequestMethod.GET, produces = { "application/json" })
-  public Map<String, Object> getAll() {
-    Map<String, Object> map = new HashMap<>();
+  public Map<String, ArrayList<Object>> getAll() {
+    Map<String, ArrayList<Object>> map = new HashMap<>();
     Iterable<Food> foods = foodRepository.findAll();
     for (Food food : foods) {
-      map.put(food.getCategory(), food);
+      if (!map.containsKey(food.getCategory())) {
+        map.put(food.getCategory(), new ArrayList<Object>());
+      }
+      ArrayList<Object> foodValues = map.get(food.getCategory());
+      foodValues.add(food);
     }
     Iterable<Drink> drinks = drinkRepository.findAll();
     for (Drink drink : drinks) {
-      map.put(drink.getCategory(), drink);
+      if (!map.containsKey(drink.getCategory())) {
+        map.put(drink.getCategory(), new ArrayList<Object>());
+      }
+      ArrayList<Object> drinkValues = map.get(drink.getCategory());
+      drinkValues.add(drink);
     }
     return map;
   }
