@@ -55,7 +55,7 @@ public class DrinkController {
      * @param Food
      * @return the food
      */
-    @DeleteMapping("/drink/{id}")
+    @DeleteMapping("/drinks/{id}")
     public ResponseEntity<Long> delete(@PathVariable Integer id) {
       Drink drink;
       Optional<Drink> optionaldrink = drinkRepository.findById(id);

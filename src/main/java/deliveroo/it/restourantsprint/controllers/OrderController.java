@@ -53,7 +53,7 @@ public class OrderController {
      * @param Order
      * @return the order
      */
-    @DeleteMapping("/order/{id}")
+    @DeleteMapping("/orders/{id}")
     public ResponseEntity<Long> delete(@PathVariable Integer id) {
       Order order;
       Optional<Order> optionalOrder = orderRepository.findById(id);
