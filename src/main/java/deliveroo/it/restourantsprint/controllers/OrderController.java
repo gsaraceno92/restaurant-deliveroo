@@ -1,4 +1,5 @@
 package deliveroo.it.restourantsprint.controllers;
+
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -20,51 +21,51 @@ import deliveroo.it.restourantsprint.models.Order;
 @RestController
 @RequestMapping(path = "/deliveroo")
 public class OrderController {
-    @Autowired
-    private OrderRepository orderRepository;
+  @Autowired
+  private OrderRepository orderRepository;
 
-    @GetMapping("/orders")
-    Iterable<Order> getAll() {
-        return orderRepository.findAll();
-    }
+  @GetMapping("/orders")
+  Iterable<Order> getAll() {
+    return orderRepository.findAll();
+  }
 
-    @GetMapping("/orders/{id}")
-    ResponseEntity<Long> getOrder(@PathVariable Integer id) {
-        Optional<Order> order = orderRepository.findById(id);
-        if (order.isEmpty()) 
-          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+  @GetMapping("/orders/{id}")
+  ResponseEntity<Long> getOrder(@PathVariable Integer id) {
+    Optional<Order> order = orderRepository.findById(id);
+    if (order.isEmpty())
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 
-    /**
-     * Create order.
-     *
-     * @param Order
-     * @return the order
-     */
-    @PostMapping("/order")
-    public Order add(@Valid @RequestBody Order order) {
-        return orderRepository.save(order);
-    }
+  /**
+   * Create order.
+   *
+   * @param Order
+   * @return the order
+   */
+  @PostMapping("/order")
+  public Order add(@Valid @RequestBody Order order) {
+    return orderRepository.save(order);
+  }
 
-    /**
-     * delete order.
-     *
-     * @param Order
-     * @return the order
-     */
-    @DeleteMapping("/orders/{id}")
-    public ResponseEntity<Long> delete(@PathVariable Integer id) {
-      Order order;
-      Optional<Order> optionalOrder = orderRepository.findById(id);
-      if (optionalOrder.isEmpty()) 
-        new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      try {
-        order = optionalOrder.get();
-        orderRepository.delete(order);
-      } catch (Exception e) {
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-      }
-      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  /**
+   * delete order.
+   *
+   * @param Order
+   * @return the order
+   */
+  @DeleteMapping("/orders/{id}")
+  public ResponseEntity<Long> delete(@PathVariable Integer id) {
+    Order order;
+    Optional<Order> optionalOrder = orderRepository.findById(id);
+    if (optionalOrder.isEmpty())
+      new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    try {
+      order = optionalOrder.get();
+      orderRepository.delete(order);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
 }
